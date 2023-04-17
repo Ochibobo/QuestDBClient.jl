@@ -3,11 +3,13 @@ uuid = "db551b72-c8d0-4930-8019-443d434af198"
 authors = ["Warren Ochibobo <ochibobowarren@gmail.com> and contributors"]
 version = "0.1.0"
 
+[deps]
+DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
+Dates = "ade2ca70-3891-5945-98fb-dc099432e06a"
+DocumenterTools = "35a29f4d-8980-5a13-9543-d66fff28ecb8"
+Parameters = "d96e819e-fc66-5662-9728-84c9c7592b0a"
+Sockets = "6462fe0b-24de-5631-8697-dd941f90decc"
+UUIDs = "cf7118a7-6976-5b1a-9a39-7adc72f591a4"
+
 [compat]
 julia = "1"
-
-[extras]
-Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
-
-[targets]
-test = ["Test"]
