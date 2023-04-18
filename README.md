@@ -7,4 +7,4 @@ This is a Julia package tha can be used to connect to a [QuestDB](https://questd
 
 **Installation** at the Julia REPL, `using Pkg; Pkg.add("QuestDBClient")`
 
-**Documentation** at ""
+**Documentation** can be found [here](https://ochibobo.github.io/QuestDBClient.jl/dev/).
