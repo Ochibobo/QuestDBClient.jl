@@ -36,14 +36,8 @@ const SymbolColumnValue = Union{Symbol, String, Nothing}
                                          Dates.Date, Char, UUID]
 A list of supported types
 """
-const supportedTypes::Vector{Type} = [Integer, 
-                                    AbstractFloat, 
-                                    AbstractString, 
-                                    Symbol, 
-                                    Dates.DateTime, 
-                                    Dates.Date, 
-                                    Char,
-                                    UUID]
+const supportedTypes = [Integer, AbstractFloat, AbstractString, Symbol, 
+                        Dates.DateTime, Dates.Date, Char, UUID]
 
 """
 Constant Definitions

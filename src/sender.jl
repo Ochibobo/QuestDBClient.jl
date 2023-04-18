@@ -16,7 +16,7 @@ export Auth
 
 Default buffer size of the sender's buffer
 """
-const DEFAULT_BUFFER_SIZE::Int = 128 * 1024
+const DEFAULT_BUFFER_SIZE = 128 * 1024
 
 """
 See: https://questdb.io/docs/reference/api/ilp/authenticate
