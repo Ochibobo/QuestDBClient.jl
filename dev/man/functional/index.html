@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Functional Approach · QuestDBClient</title><script data-outdated-warner src="../../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.045/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.24/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../assets/documenter.js"></script><script src="../../siteinfo.js"></script><script src="../../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><a class="docs-logo" href="../../"><img src="../../assets/logo.png" alt="QuestDBClient logo"/></a><div class="docs-package-name"><span class="docs-autofit"><a href="../../">QuestDBClient</a></span></div><form class="docs-search" action="../../search/"><input class="docs-search-query" id="documenter-search-query" name="q" type="text" placeholder="Search docs"/></form><ul class="docs-menu"><li><a class="tocitem" href="../../">Home</a></li><li><span class="tocitem">User Guide</span><ul><li class="is-active"><a class="tocitem" href>Functional Approach</a><ul class="internal"><li><a class="tocitem" href="#API"><span>API</span></a></li><li><a class="tocitem" href="#Example"><span>Example</span></a></li></ul></li><li><a class="tocitem" href="../macros/">Macro Approach</a></li></ul></li><li><span class="tocitem">API</span><ul><li><a class="tocitem" href="../../lib/sender/">Sender</a></li><li><a class="tocitem" href="../../lib/operators/">Operators</a></li><li><a class="tocitem" href="../../lib/types/">Types</a></li><li><a class="tocitem" href="../../lib/exceptions/">Exceptions</a></li></ul></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">User Guide</a></li><li class="is-active"><a href>Functional Approach</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Functional Approach</a></li></ul></nav><div class="docs-right"><a class="docs-edit-link" href="https://github.com/Ochibobo/QuestDBClient.jl/blob/main/docs/src/man/functional.md" title="Edit on GitHub"><span class="docs-icon fab"></span><span class="docs-label is-hidden-touch">Edit on GitHub</span></a><a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a></div></header><article class="content" id="documenter-page"><h1 id="Functional-Approach"><a class="docs-heading-anchor" href="#Functional-Approach">Functional Approach</a><a id="Functional-Approach-1"></a><a class="docs-heading-anchor-permalink" href="#Functional-Approach" title="Permalink"></a></h1><p>The <code>QuestDBClient</code> can be used with functions to write data to a QuestDB server instance.</p><h2 id="API"><a class="docs-heading-anchor" href="#API">API</a><a id="API-1"></a><a class="docs-heading-anchor-permalink" href="#API" title="Permalink"></a></h2><p>The API that describes the implementation this functional approach can be found here:</p><ul><li><a href="../../lib/operators/#QuestDBOperators">QuestDBOperators</a></li></ul><h2 id="Example"><a class="docs-heading-anchor" href="#Example">Example</a><a id="Example-1"></a><a class="docs-heading-anchor-permalink" href="#Example" title="Permalink"></a></h2><div class="admonition is-info"><header class="admonition-header">Note</header><div class="admonition-body"><p>The functions need to following order:     <code>table -&gt; symbol -&gt; others -&gt; At/AtNow</code></p><p><code>others</code> represent field types such as integers, floats etc. The <strong>terminal</strong> symbol for each chain <strong>should</strong> be <code>At()</code> or <code>AtNow()</code>. </p><p>Not following the specified order will result in an <strong>exception</strong> being thrown.</p></div></div><h3 id="Basic-Example"><a class="docs-heading-anchor" href="#Basic-Example">Basic Example</a><a id="Basic-Example-1"></a><a class="docs-heading-anchor-permalink" href="#Basic-Example" title="Permalink"></a></h3><pre><code class="language-julia hljs">using QuestDBClient
+
+&quot;&quot;&quot;
+Assumes the presence of a table called readings created using:
+
+CREATE TABLE readings (
+  timestamp TIMESTAMP,
+  city SYMBOL,
+  temperature DOUBLE,
+  humidity DOUBLE,
+  make SYMBOL
+) TIMESTAMP(timestamp) PARTITION BY DAY;
+&quot;&quot;&quot;
+
+## Create a sender instance that will connect to the localhost at port 9009
+sender = Sender()
+
+## Connect the sender to the server first
+connect(sender)
+
+## Create ILP records
+sender |&gt;
+    x -&gt; table(x, :readings) |&gt; 
+    x -&gt; symbol(x, :make =&gt; :Omron) |&gt;
+    x -&gt; symbol(x, :city =&gt; :Nairobi) |&gt;
+    x -&gt; FloatColumn(x, :tempareture =&gt; 26.8) |&gt; 
+    x -&gt; FloatColumn(x, :humidity =&gt; 0.51) |&gt;
+    x -&gt; AtNow(x)
+
+sender |&gt; 
+    x -&gt; table(x, :readings) |&gt; 
+    x -&gt; symbol(x, :make =&gt; :Honeywell) |&gt; 
+    x -&gt; symbol(x, :city =&gt; :London) |&gt;
+    x -&gt; FloatColumn(x, :tempareture =&gt; 22.9) |&gt; 
+    x -&gt; FloatColumn(x, :humidity =&gt; 0.254) |&gt;
+    x -&gt; AtNow(x)
+
+sender |&gt; 
+    x -&gt; table(x, :readings) |&gt; 
+    x -&gt; symbol(x, :make =&gt; :Omron) |&gt; 
+    x -&gt; symbol(x, :city =&gt; :Bristol) |&gt;
+    x -&gt; FloatColumn(x, :tempareture =&gt; 23.9) |&gt; 
+    x -&gt; FloatColumn(x, :humidity =&gt; 0.233) |&gt;
+    x -&gt; AtNow(x)
+    
+
+## Flush the output to the server
+QuestDBSender.flush(sender)
+
+## Close the socket connection
+## Close first calls QuestDBSender.flush(sender) as part of its definition
+QuestDBSender.close(sender)</code></pre><h3 id="Working-with-DataFrames"><a class="docs-heading-anchor" href="#Working-with-DataFrames">Working with DataFrames</a><a id="Working-with-DataFrames-1"></a><a class="docs-heading-anchor-permalink" href="#Working-with-DataFrames" title="Permalink"></a></h3><p>DataFrames can also be used as a datasource in the QuestDBClient. However, some preprocessing is needed such as converting/casting the column types to supported types. The table also needs to be specified beforehand, the column that represents the designated timestamp and any symbols(tags) need to be specified too.</p><p>Supported types include: <code>Symbol</code>, <code>Integer</code> and subtypes, <code>AbstractFloat</code> and subtypes, <code>Bool</code>, <code>Char</code>, <code>AbstractString</code> and subtypes,         <code>Date</code>, <code>DateTime</code>, <code>UUID</code>.</p><h4 id="Example-2"><a class="docs-heading-anchor" href="#Example-2">Example</a><a class="docs-heading-anchor-permalink" href="#Example-2" title="Permalink"></a></h4><div class="admonition is-info"><header class="admonition-header">Note</header><div class="admonition-body"><p>This example requires the installation of the <a href="https://github.com/JuliaData/DataFrames.jl">DataFrames.jl</a> package.</p></div></div><p>A DataFrame object with the following structure will be used in the example:</p><table><tr><th style="text-align: left">city</th><th style="text-align: left">make</th><th style="text-align: right">tempareture</th><th style="text-align: right">humidity</th></tr><tr><td style="text-align: left">London</td><td style="text-align: left">Omron</td><td style="text-align: right">29.4</td><td style="text-align: right">0.334</td></tr><tr><td style="text-align: left">Nairobi</td><td style="text-align: left">Honeywell</td><td style="text-align: right">24.0</td><td style="text-align: right">0.51</td></tr></table><pre><code class="language-julia hljs">using DataFrames
+using QuestDBClient
+
+## Create a DataFrame instance
+df = DataFrame(city=[&quot;London&quot;, &quot;Nairobi&quot;], 
+               make=[:Omron, :Honeywell], 
+               temperature=[29.4, 24.0], 
+               humidity=[0.334, 0.51])
+
+## Create a sender instance that will connect to the localhost at port 9009
+sender = Sender()
+
+## Connect the sender to the server first
+connect(sender)
+
+## Map the dataframe data to ILP record statements
+sender |&gt; x -&gt; Source(x, df, :readings, symbols=[:city, :make])
+## can also use: Source(sender, df, :readings, symbols=[:city, :make]);
+
+## Flush the output to the server
+QuestDBSender.flush(sender)
+
+## Close the socket connection
+## Close first calls QuestDBSender.flush(sender) as part of its definition
+QuestDBSender.close(sender)</code></pre><p>An example with the <code>At</code> field specified.</p><table><tr><th style="text-align: left">city</th><th style="text-align: left">make</th><th style="text-align: right">tempareture</th><th style="text-align: right">humidity</th><th style="text-align: right">collection_time</th></tr><tr><td style="text-align: left">London</td><td style="text-align: left">Omron</td><td style="text-align: right">29.4</td><td style="text-align: right">0.334</td><td style="text-align: right">2023-04-10T13:09:31Z</td></tr><tr><td style="text-align: left">Nairobi</td><td style="text-align: left">Honeywell</td><td style="text-align: right">24.0</td><td style="text-align: right">0.51</td><td style="text-align: right">2023-04-10T13:09:42Z</td></tr></table><pre><code class="language-julia hljs">using DataFrames
+using Dates
+using QuestDBClient
+
+## A DataFrame instance
+df = DataFrame(city=[&quot;London&quot;, &quot;Nairobi&quot;], 
+               make=[:Omron, :Honeywell], 
+               temperature=[29.4, 24.0], 
+               humidity=[0.334, 0.51], 
+               collection_time=[&quot;2023-04-10T13:09:31Z&quot;, &quot;2023-04-10T13:09:42Z&quot;])
+
+## Cast the collection_time to DateTime
+date_format = dateformat&quot;y-m-dTH:M:SZ&quot;
+df[!, :collection_time] = DateTime.(df[:, :collection_time], date_format)
+
+## Create a sender instance that will connect to the localhost at port 9009
+sender = Sender()
+
+## Connect the sender to the server first
+connect(sender)
+
+## Map the dataframe data to ILP record statements
+sender |&gt; x -&gt; Source(x, df, :readings, symbols = [:city, :make], at = :collection_time)
+## can also use: Source(sender, df, :readings, symbols = [:city, :make], at = :collection_time)
+
+## Flush the output to the server
+QuestDBSender.flush(sender)
+
+## Close the socket connection
+## Close first calls QuestDBSender.flush(sender) as part of its definition
+QuestDBSender.close(sender)</code></pre><div class="admonition is-info"><header class="admonition-header">Note</header><div class="admonition-body"><p>The <code>sender</code> attempts to write values to the <code>QuestDB Database Server</code> depending on whether the buffer size has been met or exceeded while reading the rows of the  <code>DataFrame</code>. This is even before the <code>flush</code> or <code>close</code> function is called.</p></div></div></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../../">« Home</a><a class="docs-footer-nextpage" href="../macros/">Macro Approach »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 0.27.24 on <span class="colophon-date" title="Tuesday 18 April 2023 18:00">Tuesday 18 April 2023</span>. Using Julia version 1.6.7.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
