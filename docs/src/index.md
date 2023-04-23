@@ -61,7 +61,7 @@ sender |>
     x -> table(x, :readings) |> 
     x -> symbol(x, :make => :Omron) |>
     x -> symbol(x, :city => :Nairobi) |>
-    x -> FloatColumn(x, :tempareture => 26.8) |> 
+    x -> FloatColumn(x, :temperature => 26.8) |> 
     x -> FloatColumn(x, :humidity => 0.51) |>
     x -> AtNow(x)
 
@@ -69,7 +69,7 @@ sender |>
     x -> table(x, :readings) |> 
     x -> symbol(x, :make => :Honeywell) |> 
     x -> symbol(x, :city => :London) |>
-    x -> FloatColumn(x, :tempareture => 22.9) |> 
+    x -> FloatColumn(x, :temperature => 22.9) |> 
     x -> FloatColumn(x, :humidity => 0.254) |>
     x -> AtNow(x)
 
@@ -77,7 +77,7 @@ sender |>
     x -> table(x, :readings) |> 
     x -> symbol(x, :make => :Omron) |> 
     x -> symbol(x, :city => :Bristol) |>
-    x -> FloatColumn(x, :tempareture => 23.9) |> 
+    x -> FloatColumn(x, :temperature => 23.9) |> 
     x -> FloatColumn(x, :humidity => 0.233) |>
     x -> AtNow(x)
     
@@ -125,7 +125,7 @@ sender |>
     @table(:readings) |>
     @symbol(:make => :Omron) |>
     @symbol(:city => :Lisbon) |>
-    @FloatColumn(:tempareture => 24.8) |>
+    @FloatColumn(:temperature => 24.8) |>
     @FloatColumn(:humidity => 0.334) |>
     @AtNow
 
@@ -133,7 +133,7 @@ sender |>
     @table(:readings) |>
     @symbol(:make => :HoneyWell) |>
     @symbol(:city => :Kisumu) |>
-    @FloatColumn(:tempareture => 30.2) |>
+    @FloatColumn(:temperature => 30.2) |>
     @FloatColumn(:humidity => 0.54) |>
     @AtNow
 
@@ -141,7 +141,7 @@ sender |>
     @table(:readings) |>
     @symbol(:make => :Omron) |>
     @symbol(:city => :Berlin) |>
-    @FloatColumn(:tempareture => 26.1) |>
+    @FloatColumn(:temperature => 26.1) |>
     @FloatColumn(:humidity => 0.45) |>
     @AtNow
 

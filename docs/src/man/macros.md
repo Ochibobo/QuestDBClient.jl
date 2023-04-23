@@ -50,7 +50,7 @@ sender |>
     @table(:readings) |>
     @symbol(:make => :Omron) |>
     @symbol(:city => :Lisbon) |>
-    @FloatColumn(:tempareture => 24.8) |>
+    @FloatColumn(:temperature => 24.8) |>
     @FloatColumn(:humidity => 0.334) |>
     @AtNow
 
@@ -58,7 +58,7 @@ sender |>
     @table(:readings) |>
     @symbol(:make => :HoneyWell) |>
     @symbol(:city => :Kisumu) |>
-    @FloatColumn(:tempareture => 30.2) |>
+    @FloatColumn(:temperature => 30.2) |>
     @FloatColumn(:humidity => 0.54) |>
     @AtNow
 
@@ -66,7 +66,7 @@ sender |>
     @table(:readings) |>
     @symbol(:make => :Omron) |>
     @symbol(:city => :Berlin) |>
-    @FloatColumn(:tempareture => 26.1) |>
+    @FloatColumn(:temperature => 26.1) |>
     @FloatColumn(:humidity => 0.45) |>
     @AtNow
 
