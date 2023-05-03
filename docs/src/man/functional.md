@@ -51,7 +51,7 @@ sender |>
     x -> table(x, :readings) |> 
     x -> symbol(x, :make => :Omron) |>
     x -> symbol(x, :city => :Nairobi) |>
-    x -> FloatColumn(x, :tempareture => 26.8) |> 
+    x -> FloatColumn(x, :temperature => 26.8) |> 
     x -> FloatColumn(x, :humidity => 0.51) |>
     x -> AtNow(x)
 
@@ -59,7 +59,7 @@ sender |>
     x -> table(x, :readings) |> 
     x -> symbol(x, :make => :Honeywell) |> 
     x -> symbol(x, :city => :London) |>
-    x -> FloatColumn(x, :tempareture => 22.9) |> 
+    x -> FloatColumn(x, :temperature => 22.9) |> 
     x -> FloatColumn(x, :humidity => 0.254) |>
     x -> AtNow(x)
 
@@ -67,7 +67,7 @@ sender |>
     x -> table(x, :readings) |> 
     x -> symbol(x, :make => :Omron) |> 
     x -> symbol(x, :city => :Bristol) |>
-    x -> FloatColumn(x, :tempareture => 23.9) |> 
+    x -> FloatColumn(x, :temperature => 23.9) |> 
     x -> FloatColumn(x, :humidity => 0.233) |>
     x -> AtNow(x)
     
