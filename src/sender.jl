@@ -89,6 +89,8 @@ function Base.:(==)(a::Sender, b::Sender)
           isequal(a.buffer, b.buffer)
           Sockets.getsockname(a) == Sockets.getsockname(b)
 end
+
+
 """
     write(sender::Sender) 
 
@@ -102,19 +104,18 @@ function write(sender::Sender)
             Base.write(sender.socket, sender.buffer)
             ## Clear the buffer
             clear(sender)
-            ## Output on write
-            @info "Inserted an ILP record..."
         end
     catch err
-        @error "Failed to write to server\n"
         throw(err)
     end
 end
+
 
 function consume(sender::Sender)::Sender
     sender.auth = Auth("", "", "","")
     return sender
 end
+
 
 """
     clear(sender::Sender)
@@ -139,7 +140,6 @@ function connect(sender::Sender)
     catch err
         throw(err)
     end
-    @info "Successfully connected sender to $(sender.host):$(sender.port)"
 end
 
 
@@ -156,9 +156,7 @@ function flush(sender::Sender)
         Base.flush(sender.socket)
         ## Clear the sender buffer
         clear(sender)
-        @info "Flushed extra bytes to server..."
     catch err
-        @error "Failed to write remaining bytes to server\n"
         throw(err)
     end
 
@@ -180,8 +178,6 @@ function close(sender::Sender)
     catch err
         throw(err)
     end
-
-    @info "Successfully closed the connection to $(sender.host):$(sender.port)"
 end
 
 end
